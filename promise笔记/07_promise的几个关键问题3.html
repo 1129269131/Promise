@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>promise的几个关键问题3</title>
+</head>
+<body>
+  <script>
+    /* 
+		4.promise.then()返回的新promise的结果状态由什么决定?
+		  (1)简单表达: 由then()指定的回调函数执行的结果决定
+		  (2)详细表达:
+			  ①如果抛出异常, 新promise变为rejected, reason为抛出的异常
+			  ②如果返回的是非promise的任意值, 新promise变为resolved, value为返回的值
+			  ③如果返回的是另一个新promise, 此promise的结果就会成为新promise的结果 
+    */
+
+    new Promise((resolve, reject) => {
+    	resolve(1)
+    }).then(
+    	value => {
+    		console.log('onResolved1()', value)
+    	},
+    	reason => {
+    		console.log('onRejected1()', reason)
+    	}
+    ).then(
+    	value => {
+    		console.log('onResolved2()', value)
+    	},
+    	reason => {
+    		console.log('onRejected2()', reason)
+    	}
+    )
+	
+	new Promise((resolve, reject) => {
+    	resolve(2)
+    }).then(
+    	value => {
+    		console.log('onResolved3()', value)
+    		return 2 // 第二个then的值由第一个then的return决定
+    	},
+    	reason => {
+    		console.log('onRejected3()', reason)
+    		return 2 // 第二个then的值由第一个then的return决定
+    	}
+    ).then(
+    	value => {
+    		console.log('onResolved4()', value)
+    	},
+    	reason => {
+    		console.log('onRejected4()', reason)
+    	}
+    )
+    
+    new Promise((resolve, reject) => {
+    	resolve(3)
+    }).then(
+    	value => {
+    		console.log('onResolved5()', value)
+    		return Promise.resolve(3)
+    	},
+    	reason => {
+    		console.log('onRejected5()', reason)
+    	}
+    ).then(
+    	value => {
+    		console.log('onResolved6()', value)
+    	},
+    	reason => {
+    		console.log('onRejected6()', reason)
+    	}
+    )
+    
+    new Promise((resolve, reject) => {
+    	resolve(4)
+    }).then(
+    	value => {
+    		console.log('onResolved7()', value)
+    		return Promise.reject(4)
+    	},
+    	reason => {
+    		console.log('onRejected7()', reason)
+    	}
+    ).then(
+    	value => {
+    		console.log('onResolved8()', value)
+    	},
+    	reason => {
+    		console.log('onRejected8()', reason)
+    	}
+    )
+    
+    new Promise((resolve, reject) => {
+    	resolve(5)
+    }).then(
+    	value => {
+    		console.log('onResolved9()', value)
+    		throw 5
+    	},
+    	reason => {
+    		console.log('onRejected9()', reason)
+    	}
+    ).then(
+    	value => {
+    		console.log('onResolved10()', value)
+    	},
+    	reason => {
+    		console.log('onRejected10()', reason)
+    	}
+    )
+    
+    new Promise((resolve, reject) => {
+    	reject(6)
+    }).then(
+    	value => {
+    		console.log('onResolved6()', value)
+    	},
+    	reason => {
+    		console.log('onRejected6()', reason)
+    	}
+    ).then(
+    	value => {
+    		console.log('onResolved6()', value)
+    	},
+    	reason => {
+    		console.log('onRejected6()', reason)
+    	}
+    )
+  </script>
+</body>
+</html>

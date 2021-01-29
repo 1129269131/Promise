@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>21_自定义Promise</title>
+</head>
+
+<body>
+  <script src="./08lib/Promise21_class类版本.js"></script>
+  <script>
+  	const p6 = Promise.resolveDelay(66, 2000)
+  	const p7 = Promise.rejectDelay(77, 3000)
+  	
+  	p6.then(value => {console.log('p6', value)})
+  	p7.catch(reason => {console.log('p7', reason)})
+  </script>
+</body>
+
+</html>

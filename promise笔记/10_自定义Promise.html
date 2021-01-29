@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>10_自定义Promise</title>
+</head>
+
+<body>
+  <script src="./08lib/Promise10.js"></script>
+  <script>
+  	const p = new Promise((resolve, reject) => {
+  		setTimeout(() => {
+  			// resolve(1)
+  			reject(2)
+  			console.log('reject()改变状态之后') //用于证明.then里的回调是异步执行的
+  		}, 100)
+  	})
+  	p.then(
+  		value => {
+  			console.log('onResolved1()', value)
+  		},
+  		reason => {
+  			console.log('onRejected1()', reason)
+  		}
+  	)
+  	p.then(
+  		value => {
+  			console.log('onResolved2()', value)
+  		},
+  		reason => {
+  			console.log('onRejected2()', reason)
+  		}
+  	)
+  </script>
+</body>
+
+</html>
